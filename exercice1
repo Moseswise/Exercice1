@@ -1,0 +1,79 @@
+/** Ce code lance deux processus qui modifie de façon concurrente
+ *  une variable partagée se trouvant dans une mémoire partagée
+ *  Abomey-Calavi le 13/07/19
+ *  Auteur: Assogba Emery Kouassi assogba.emery@gmail.com*/
+
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+#include <sys/wait.h>
+
+#include <errno.h>
+#include <unistd.h>
+
+int main(int argc, char *argv[])
+{
+    int fils1,fils2,fils3;
+    
+    fils1=fork();
+    
+   
+               switch(fils1){
+               
+               case -1:
+               printf("erreur dans  la creation du processus\n");
+               break;
+               
+               case 0:
+                          printf("je suis le fils : 1,mon pid est :%d \n",getpid());
+               return (5);
+               break;
+               
+               default : fils2 = fork();
+                                        switch(fils2){
+                                                    case -1:
+                                                   printf("erreur dans  la creation du processus\n");
+                                                   break;
+                                                   
+                                                   case 0:
+                                                              printf("je suis le fils : 2,mon pid est :%d \n",getpid());
+                                                   return (10);
+                                                   break;
+                                                   
+                                                   default : fils3= fork();
+                                                   
+                                                                            switch(fils3){
+                                                                            case -1:
+                                                                           printf("erreur dans  la creation du processus\n");
+                                                                           break;
+                                                                           
+                                                                           case 0:
+                                                                        printf("je suis le fils : 3,mon pid est :%d \n",getpid());
+                                                                           return (3);
+                                                                           break;
+                                                                           
+                                                                           default : 
+                                                                           printf("c'est toujours le pere en fin  de traitement \n");
+                                                                           waitpid(fils1,NULL,0);
+                                                                            waitpid(fils1,NULL,0);
+                                                                             waitpid(fils1,NULL,0);
+                                                                             }
+                                                                             
+                                                                           
+                                                                           
+                                                                           
+                                                  } 
+                                                   
+                                        
+                                        }
+              
+               
+               
+            }
+     
+     
+          
+          
+
